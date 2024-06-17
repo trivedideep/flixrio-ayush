@@ -6,7 +6,6 @@ import Sidebar from "./Components/Sidebar";
 import Upload from "./Components/Upload.js";
 import Dashboard from "./Pages/Dashboard.js";
 import Favourites from "./Pages/Favourites.js";
-import PodcastDetails from "./Pages/PodcastDetails.js";
 import Profile from "./Pages/Profile.js";
 import Search from "./Pages/Search.js";
 import { darkTheme, lightTheme } from "./utils/Themes";
@@ -18,7 +17,6 @@ import Showpodcasts from "./Pages/Showpodcasts.js";
 import Myvid from "./Pages/Myvid.js";
 import Showallre from "./Pages/Showallre.js";
 import Feedback from "./Pages/Feedback.js"
-import Footer from "./Pages/Footer.js"
 
 
 const Frame = styled.div`

@@ -303,8 +303,29 @@ const PodcastCard = ({ podcast, user, setUser,showDeleteButton }) => {
   //     fetchData();
   //   }
   // }, [user_data]);
+  const fetchData = async () => {
+    try {
+      const u_id = user_data ? user_data.id : 0;
+      const response = await axios.put(`http://localhost:8080/fatchfavouritedata/${u_id}`, {
+        withCredentials: true
+      });
+      if (response.status === 200) {
+        const updatedUser = { ...user, favorites: response.data.data };
+        localStorage.setItem('user', JSON.stringify(updatedUser));
+        if (JSON.stringify(user.favorites) !== JSON.stringify(updatedUser.favorites)) {
+          setUser(updatedUser);
+          localStorage.setItem('user', JSON.stringify(updatedUser));
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching session:', error);
+    }
+  };
 
   useEffect(() => {
+    if(user_data){
+      fetchData();
+    }
     if (user?.favorites?.some((fav) => fav.v_id === podcast.v_id)) {
       setFavourite(true);
     } else {
