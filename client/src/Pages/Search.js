@@ -7,7 +7,7 @@ import { DefaultCard } from '../Components/DefaultCard.jsx';
 import PodcastCard from '../Components/PodcastCard';
 import axios from 'axios';
 import { searchPodcast } from '../api/index.js';
-import Footer from './footer'
+
 
 const SearchMain = styled.div`
 padding: 20px 30px;

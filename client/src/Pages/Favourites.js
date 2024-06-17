@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import  PodcastCard  from '../Components/PodcastCard';
 import { getUsers } from '../api/index';
 import { CircularProgress } from '@mui/material';
-import Footer from './footer'
+import Footer from './Footer'
 
 const Container = styled.div`
 padding: 20px 30px;

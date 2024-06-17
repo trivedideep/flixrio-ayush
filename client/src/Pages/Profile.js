@@ -41,7 +41,7 @@ const Profile = () => {
                           right: "15px",
                           cursor: "pointer",
                         }}
-                        onClick={() => Navigate("/")}
+                        onClick={(e) => { e.preventDefault(); window.location.href = "/"; }}
                         
                       />
                     </h6>

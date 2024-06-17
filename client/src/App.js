@@ -18,7 +18,8 @@ import Showpodcasts from "./Pages/Showpodcasts.js";
 import Myvid from "./Pages/Myvid.js";
 import Showallre from "./Pages/Showallre.js";
 import Feedback from "./Pages/Feedback.js"
-import Footer from "./Pages/footer.js"
+import Footer from "./Pages/Footer.js"
+
 
 const Frame = styled.div`
   display: flex;
@@ -72,7 +73,7 @@ function App() {
               <Route path="/Myvid" exact element={<Myvid />} />
               <Route path="/Showallre" exact element={<Showallre />} />
               <Route path="/feedback" exact element={<Feedback />} />
-
+           
              
               
 

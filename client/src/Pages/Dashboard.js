@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Link } from 'react-router-dom';
 import PodcastCard from '../Components/PodcastCard';
 import axios from 'axios';
-import Footer from './footer'
+import Footer from './Footer'
 
 const DashboardMain = styled.div`
     padding: 20px 30px;
