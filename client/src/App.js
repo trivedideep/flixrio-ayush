@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import styled, { ThemeProvider } from "styled-components";
 import Navbar from "./Components/NavBar";
 import Sidebar from "./Components/Sidebar";
+import Footer from "./Components/footer";
 import Upload from "./Components/Upload.js";
 import Dashboard from "./Pages/Dashboard.js";
 import Favourites from "./Pages/Favourites.js";
@@ -87,6 +88,7 @@ function App() {
               {/* <Route path="/upload" exact element={<Upload />} /> */}
                {/* <Route path='/login' exact element={<Login />} />   */}
             </Routes>
+            <Footer />
           </Frame>
           
         </Container>
