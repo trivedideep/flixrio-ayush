@@ -15,7 +15,6 @@ import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import PersonAdd from '@mui/icons-material/PersonAdd';
 import Divider from '@mui/material/Divider';
-import { setUser } from "../redux/favSlice";
 
 const NavBarDiv = styled.div`
   display: flex;
@@ -66,6 +65,8 @@ const Welcome = styled.div`
   }
 `;
 
+
+
 const NavBar = ({ menuOpen, setMenuOpen }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -103,8 +104,9 @@ const NavBar = ({ menuOpen, setMenuOpen }) => {
         });
       if (response.ok) {
         fetchSession();
-        localStorage.clear();
-        dispatch(setUser(null))
+        localStorage.removeItem('loginuser');
+        localStorage.removeItem('user');
+
             navigate('/'); // Redirect to home or login page
         } else {
             console.error('Logout failed');

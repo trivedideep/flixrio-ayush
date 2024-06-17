@@ -9,7 +9,7 @@ import {
 import { IconButton } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import styled from "styled-components";
 import { closeSignin } from "../redux/setSigninSlice";
 import { useNavigate } from 'react-router-dom';
@@ -19,7 +19,6 @@ import useSession from '../hooks/useSession';
 import { openSignup } from "../redux/setSignupSlice";
 import Resetpassvali from "./Resetpassvali";
 import useEmailValidation from '../hooks/useEmailValidation';
-import { setUser } from "../redux/favSlice";
 
 
 const TextInput = styled.input`
@@ -155,7 +154,6 @@ const Login = () => {
   const [resettingPassword, setResettingPassword] = useState(false);
   
   const [resetDisabled, setResetDisabled] = useState(true);
-  const { userFav } = useSelector(state => state.fav);
 
   
   const [Loading] = useState(false);
@@ -166,6 +164,7 @@ const Login = () => {
     
   }
   const resthandleChange = async(e) => {
+    const { name, value } = e.target;
 
     setrestValues({ ...restvalues, [e.target.name]: e.target.value });
     
@@ -177,24 +176,6 @@ const Login = () => {
 
   const handleChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
-  };
-
-  const fetchData_fav = async () => {
-    try {
-      const u_id = user ? user.id : 0;
-      const response = await axios.put(`http://localhost:8080/fatchfavouritedata/${u_id}`, {
-        withCredentials: true
-      });
-      if (response.status === 200) {
-        const updatedUser = { ...userFav, favorites: response.data.data };
-        if (JSON.stringify(userFav?.favorites) !== JSON.stringify(updatedUser.favorites)) {
-          dispatch(setUser(updatedUser));
-          localStorage.setItem('user', JSON.stringify(updatedUser));
-        }
-      }
-    } catch (error) {
-      console.error('Error fetching session:', error);
-    }
   };
 
   const resthandleSubmit = async (event) => {
@@ -222,8 +203,9 @@ const Login = () => {
                 alert("paaword update sucessful");
         
                   // Fetch session data to update the frontend state
-                fetchSession();
+                  fetchSession();
                   dispatch(closeSignin());
+        
               }
               else {
                   //console.log('Login failed');
@@ -260,9 +242,7 @@ const handleSubmit = async (event) => {
       if (data === 'Success') {
        // alert("login sucessful");
           // Fetch session data to update the frontend state
-        fetchSession();
-        fetchData_fav();
-
+          fetchSession();
           dispatch(closeSignin());
 
           navigate('/');
@@ -297,7 +277,7 @@ setLoading(false);
         <Title>Sign In</Title>
         <OutlinedBox style={{ marginTop: "24px" }}>
           <EmailRounded
-            sx={{ fontSize: "20px" }}
+            sx={{ fontSize: "30px" }}
             style={{ paddingRight: "12px" }}
           />
           <TextInput
@@ -311,7 +291,7 @@ setLoading(false);
         <Error error={errors.email}>{errors.email}</Error>
         <OutlinedBox>
           <PasswordRounded
-            sx={{ fontSize: "20px" }}
+            sx={{ fontSize: "30px" }}
             style={{ paddingRight: "12px" }}
           />
           <TextInput
