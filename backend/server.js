@@ -84,6 +84,23 @@ app.post('/reg',(req,res)=>{
     })
 })
 
+app.post('/feedback_insert',(req,res)=>{
+    console.log(req.body);
+    const sql="INSERT INTO feedback(feed,u_id,rate) VALUES (?)";
+    const values=[
+        req.body.feedback,
+        req.body.u_id,
+        req.body.rate
+    ]
+    db.query(sql,[values],(err,data)=>{
+        if(err)
+        {
+            return res.json("Error");
+        }
+        return res.json({"message":"Success","data":data});
+    })
+})
+
 app.post('/login', (req, res) => {
     const sql = "SELECT * FROM user WHERE `email`=? AND `password`=?";
     db.query(sql, [req.body.email, req.body.password], (err, data) => {

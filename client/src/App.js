@@ -39,6 +39,8 @@ function App() {
   const [darkMode, setDarkMode] = useState(true);
   const [menuOpen, setMenuOpen] = useState(true);
   const [uploadOpen, setUploadOpen] = useState(false);
+  const [Feedbackopen, setFeedbackopen] = useState(false);
+
   const { opensi } = useSelector((state) => state.signin);
   const { opensu } = useSelector((state) => state.signup);
 
@@ -52,11 +54,14 @@ function App() {
               darkMode={darkMode}
               setDarkMode={setDarkMode}
               setUploadOpen={setUploadOpen}
+              setFeedbackopen={setFeedbackopen}
             />
               
           )}
          
           {uploadOpen && <Upload setUploadOpen={setUploadOpen} uploadOpen={uploadOpen} />}
+          {Feedback && <Feedback setFeedbackopen={setFeedbackopen} Feedbackopen={Feedbackopen} />}
+
           <Frame>
             <Navbar menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
             {opensi && <Login />}

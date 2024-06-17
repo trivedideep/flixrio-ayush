@@ -85,7 +85,7 @@ background-color: ${({ theme }) => theme.text_secondary + 50};
 margin: 10px 0px;
 `;
 
-const Sidebar = ({ setMenuOpen, darkMode, setDarkMode, setUploadOpen }) => {
+const Sidebar = ({ setMenuOpen, darkMode, setDarkMode, setUploadOpen,setFeedbackopen }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { user, fetchSession, clearSession } = useSession();
@@ -121,7 +121,11 @@ const Sidebar = ({ setMenuOpen, darkMode, setDarkMode, setUploadOpen }) => {
 
             if(path === '/upload'){
                 setUploadOpen(true)
-            }else{
+            }else if(path === '/feedback')
+                {
+                    setFeedbackopen(true)
+                }
+            else{
                 // If logged in, handle navigation normally
                 navigate(path);
             }
@@ -187,8 +191,12 @@ const Sidebar = ({ setMenuOpen, darkMode, setDarkMode, setUploadOpen }) => {
                 <LogoutRounded />
                 <NavText>Log Out</NavText>
             </Elements> */}
-             <Elements onClick={() => handleMenuClick('/feedback')} style={{ textDecoration: "none", color: "inherit", width: '100%' }}>
+             {/* <Elements onClick={() => handleMenuClick('/feedback')} style={{ textDecoration: "none", color: "inherit", width: '100%' }}>
                 <FeedbackRoundedIcon />
+                <NavText>Feedback</NavText>
+            </Elements> */}
+            <Elements onClick={() => handleMenuClick('/feedback')} style={{ textDecoration: "none", color: "inherit", width: '100%' }}>
+                <BackupRoundedIcon />
                 <NavText>Feedback</NavText>
             </Elements>
         </MenuContainer>
