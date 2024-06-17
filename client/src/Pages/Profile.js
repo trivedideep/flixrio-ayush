@@ -2,13 +2,15 @@ import React from "react";
 import "./Profile.css";
 import useSession from "../hooks/useSession";
 import { CloseRounded, Style } from "@mui/icons-material";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import "./Dashboard";
 import { useDispatch } from "react-redux";
 
 const Profile = () => {
   const { user } = useSession();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   return (
     <div class="page-content page-container" id="page-content">
       <div class="padding">
@@ -38,10 +40,10 @@ const Profile = () => {
                         style={{
                           position: "absolute",
                           top: "8px",
-                          right: "15px",
+                          right: "15px",  
                           cursor: "pointer",
                         }}
-                        onClick={(e) => { e.preventDefault(); window.location.href = "/"; }}
+                        onClick={() =>navigate("/") }
                         
                       />
                     </h6>

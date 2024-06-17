@@ -1,6 +1,7 @@
 import React from "react";
 import "./footer.css";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 const Footer = styled.div`
   background-color: ${({ theme }) => theme.bg};
@@ -14,13 +15,15 @@ const Footer = styled.div`
 `;
 
 function footer() {
+  const navigate = useNavigate();
+
   return (
     <div>
       <div>
         <Footer style={{ bottom: "0" }}>
           <p>
             &copy 2024 Made with <strong>Flixrio</strong> |
-            <strong ><a onClick={(e) => { e.preventDefault(); window.location.href = "/feedback"; }}>FeedBack</a></strong>
+            <strong ><a onClick={() =>navigate("/feedback")}>FeedBack</a></strong>
           </p>
         </Footer>
       </div>

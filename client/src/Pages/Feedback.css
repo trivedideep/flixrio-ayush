@@ -56,7 +56,7 @@
     fill: rgb(255, 204, 185);
   }
   .rating-stars-container input:checked ~ .star-label svg {
-    fill: rgb(255, 102, 47);
+    fill: rgb(47, 50, 255);
     animation: slide-in-fwd-center 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
   }
   @keyframes slide-in-fwd-center {

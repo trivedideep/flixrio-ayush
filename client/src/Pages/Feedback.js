@@ -1,6 +1,7 @@
 import React from 'react';
 import "./Feedback.css";
 import styled from "styled-components";
+import { CloseRounded, Style } from "@mui/icons-material";
 
 const Container =styled.div`
 display:flex;
@@ -16,69 +17,35 @@ background-color: ${({ theme }) => theme.card};
     color: ${({ theme }) => theme.text_primary};
     border: 1px solid ${({ theme }) => theme.text_secondary};
      border-radius: 10px;
+     padding:30px;
 `;
 
 const Feedback = () => {
     
     return (
         <Container>
+          
      <Wrapper>
+     
     <div class="rating-card">
+    <CloseRounded
+                        style={{
+                          position: "absolute",
+                          top: "203px",
+                          right: "445px",
+                          cursor: "pointer",
+                        }}
+                        onClick={(e) => { e.preventDefault(); window.location.href = "/"; }}/>
   <div class="text-wrapper">
+  
     <p class="text-primary">Please Rate Your Experience</p>
     <p class="text-secondary">to help us serve you better</p>
   </div>
-  {/* <div>
-    <textarea style={{backgroundColor:"#15171E" ,color:"white",border: "#cccccc" ,borderradius: "10px"}}></textarea>
-</div> */}
+   <div>
+    <textarea cols={"30"} rows={"5"} style={{backgroundColor:"#15171E" ,color:"white",border: "#cccccc" ,borderradius: "10px", fontSize:"20px" }}></textarea>
+</div> 
 
-  <div class="rating-stars-container">
-    <input value="star-5" name="star" id="star-5" type="radio" />
-    <label for="star-5" class="star-label">
-      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path
-          d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z"
-          pathLength="360"
-        ></path>
-      </svg>
-    </label>
-    <input value="star-4" name="star" id="star-4" type="radio" />
-    <label for="star-4" class="star-label">
-      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path
-          d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z"
-          pathLength="360"
-        ></path>
-      </svg>
-    </label>
-    <input value="star-3" name="star" id="star-3" type="radio" />
-    <label for="star-3" class="star-label">
-      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path
-          d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z"
-          pathLength="360"
-        ></path>
-      </svg>
-    </label>
-    <input value="star-2" name="star" id="star-2" type="radio" />
-    <label for="star-2" class="star-label">
-      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path
-          d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z"
-          pathLength="360"
-        ></path>
-      </svg>
-    </label>
-    <input value="star-1" name="star" id="star-1" type="radio" />
-    <label for="star-1" class="star-label">
-      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path
-          d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z"
-          pathLength="360"
-        ></path>
-      </svg>
-    </label>
-  </div>
+ <button style={{color:"white",backgroundColor:"#007bff",borderradius: "10px",border: "2px solid #cccccc" }}>Submit</button>
   <div class="socials-container">
     <a class="social-button" href="#">
       <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">

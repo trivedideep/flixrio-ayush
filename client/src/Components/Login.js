@@ -277,7 +277,7 @@ setLoading(false);
         <Title>Sign In</Title>
         <OutlinedBox style={{ marginTop: "24px" }}>
           <EmailRounded
-            sx={{ fontSize: "20px" }}
+            sx={{ fontSize: "30px" }}
             style={{ paddingRight: "12px" }}
           />
           <TextInput
@@ -291,7 +291,7 @@ setLoading(false);
         <Error error={errors.email}>{errors.email}</Error>
         <OutlinedBox>
           <PasswordRounded
-            sx={{ fontSize: "20px" }}
+            sx={{ fontSize: "30px" }}
             style={{ paddingRight: "12px" }}
           />
           <TextInput

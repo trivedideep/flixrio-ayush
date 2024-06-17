@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { CloseRounded, HomeRounded, LogoutRounded } from "@mui/icons-material";
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
+import FeedbackRoundedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
 import LogoImage from "../Images/Logo.png";
 import { Link, useNavigate } from 'react-router-dom';
 import BackupRoundedIcon from '@mui/icons-material/BackupRounded';
@@ -11,6 +12,8 @@ import DarkModeRoundedIcon from '@mui/icons-material/DarkModeRounded';
 import { useDispatch } from "react-redux";
 import { openSignin } from "../redux/setSigninSlice";
 import useSession from '../hooks/useSession';
+
+
 
 const MenuContainer = styled.div`
     flex: 0.5;
@@ -184,6 +187,10 @@ const Sidebar = ({ setMenuOpen, darkMode, setDarkMode, setUploadOpen }) => {
                 <LogoutRounded />
                 <NavText>Log Out</NavText>
             </Elements> */}
+             <Elements onClick={() => handleMenuClick('/feedback')} style={{ textDecoration: "none", color: "inherit", width: '100%' }}>
+                <FeedbackRoundedIcon />
+                <NavText>Feedback</NavText>
+            </Elements>
         </MenuContainer>
     );
 };
