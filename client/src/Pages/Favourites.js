@@ -1,13 +1,13 @@
-import styled from 'styled-components';
-import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import  PodcastCard  from '../Components/PodcastCard';
-import { getUsers } from '../api/index';
 import { CircularProgress } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import styled from 'styled-components';
+import PodcastCard from '../Components/PodcastCard';
+import { getUsers } from '../api/index';
 
 const Container = styled.div`
 padding: 20px 30px;
-// padding-bottom: 200px;
+padding-bottom: 200px;
 height: 100%;
 overflow-y: scroll;
 display: flex;
@@ -52,16 +52,15 @@ color: ${({ theme }) => theme.text_primary};
 
 
 const Favourites = () => {
-  const [user, setUser] = useState();
+  // const [user, setUser] = useState();
   const [Loading, setLoading] = useState(false);
-  const dispatch = useDispatch();
-  //user
+  const { userFav } = useSelector(state => state.fav);
   // const { currentUser } = useSelector(state => state.user);
 
   const token = localStorage.getItem("podstreamtoken");
   const getUser = async () => {
     await getUsers(token).then((res) => {
-      setUser(res.data)
+      // setUser(res.data)
     }).then((error) => {
       console.log(error)
     });
@@ -74,11 +73,12 @@ const Favourites = () => {
     //   await getUser();
     //   setLoading(false);
     // }
-    setUser(JSON.parse(localStorage.getItem('user')))
+    // setUser(JSON.parse(localStorage.getItem('user')))
   }
 
   useEffect(() => {
-    getuser();
+    // getuser();
+    console.log(userFav,'user');
   }, []);
 
   return (
@@ -92,13 +92,12 @@ const Favourites = () => {
         </Loader>
         :
         <FavouritesContainer>
-          {user?.favorites?.length === 0 && <DisplayNo>No Favourites</DisplayNo>}
-          {user && user?.favorites.map((podcast) => (
-            <PodcastCard podcast={podcast} user={user} setUser={setUser}/>
+          {userFav?.favorites?.length === 0 && <DisplayNo>No Favourites</DisplayNo>}
+          {userFav && userFav?.favorites.map((podcast) => (
+            <PodcastCard podcast={podcast} user={userFav} />
           ))}
         </FavouritesContainer>
       }
-      
     </Container>
   )
 }

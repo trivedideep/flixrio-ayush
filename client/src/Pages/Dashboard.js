@@ -6,7 +6,7 @@ import axios from 'axios';
 
 const DashboardMain = styled.div`
     padding: 20px 30px;
-    
+    padding-bottom: 200px;
     height: 100%;
     overflow-y: scroll;
     display: flex;
@@ -56,7 +56,6 @@ const Dashboard = () => {
   const [videos, setVideos] = useState(null);
   const [videos1, setVideos1] = useState(null);
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
-  const user_data = JSON.parse(localStorage.getItem("loginuser"));
 
   const fetchData = async () => {
     try {
@@ -93,35 +92,12 @@ const Dashboard = () => {
     }
   };
 
-  const fetchData_fav = async () => {
-    try {
-      const u_id = user_data ? user_data.id : 0;
-      const response = await axios.put(`http://localhost:8080/fatchfavouritedata/${u_id}`, {
-        withCredentials: true
-      });
-      if (response.status === 200) {
-        const updatedUser = { ...user, favorites: response.data.data };
-        if (JSON.stringify(user.favorites) !== JSON.stringify(updatedUser.favorites)) {
-          setUser(updatedUser);
-          localStorage.setItem('user', JSON.stringify(updatedUser));
-        }
-      }
-    } catch (error) {
-      console.error('Error fetching session:', error);
-    }
-  };
-
   useEffect(() => {
+  
+
     fetchData();
     fetchData_sec2();
   }, []);
-
-  useEffect(() => {
-    if (user_data !== null) {
-      fetchData_fav();
-    }
-
-  },[user_data])
 
 //console.log(videos1, 'jhhj', videos);
 
@@ -152,7 +128,6 @@ const Dashboard = () => {
                   ))}
               </Podcasts>
           </FilterContainer>
-          
     </DashboardMain>
   )
 }

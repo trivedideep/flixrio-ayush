@@ -12,6 +12,7 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 // import storage from "redux-persist/lib/storage";
 import signinReducer from './setSigninSlice';
 import signupReducer from './setSignupSlice';
+import favReducer from './favSlice'
 
 // const persistConfig = {
 //   key: "root",
@@ -19,7 +20,7 @@ import signupReducer from './setSignupSlice';
 //   storage,
 // };
 
-const rootReducer = combineReducers({signin: signinReducer, signup: signupReducer});
+const rootReducer = combineReducers({signin: signinReducer, signup: signupReducer, fav: favReducer});
 
 export const store = configureStore({
   reducer: rootReducer,
