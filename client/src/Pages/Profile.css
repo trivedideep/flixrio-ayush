@@ -134,4 +134,6 @@ p {
     transition: all 0.3s ease-in-out;
 }
 
-
+#page-content{
+    height: 100% !important;
+}
