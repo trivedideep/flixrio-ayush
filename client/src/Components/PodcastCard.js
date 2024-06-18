@@ -323,9 +323,9 @@ const PodcastCard = ({ podcast, user, setUser,showDeleteButton }) => {
   };
 
   useEffect(() => {
-    if(user_data){
+    //if(user_data){
       fetchData();
-    }
+    //}
     if (user?.favorites?.some((fav) => fav.v_id === podcast.v_id)) {
       setFavourite(true);
     } else {
@@ -357,7 +357,9 @@ const PodcastCard = ({ podcast, user, setUser,showDeleteButton }) => {
           <CreatorInfo>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               {/* <Avatar >Y</Avatar> */}
-              <Avatar style={{ width: '26px', height: '26px' }} >Y</Avatar>
+              
+              <Avatar style={{ width: '26px', height: '26px' }} >{podcast.u_name.charAt(0).toUpperCase()}</Avatar>
+
               <CreatorName>{podcast.u_name}</CreatorName>
             </div>
             <Views>• {podcast.views} views</Views>
