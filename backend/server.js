@@ -239,6 +239,71 @@ app.put('/myvid/:u_id', (req, res) => {
     }
 });
 
+app.put('/myvid_mostview/:u_id', (req, res) => {
+    try {
+        const { u_id } = req.params; // Retrieve views and v_id from the request body
+        console.log(req.params);
+        const sql = "select v_name from videodetail where u_id=? order by views desc LIMIT 1;";
+        const values = [u_id];
+
+        db.query(sql, values, (err, result) => {
+            if (err) {
+                console.error('Error executing query:', err);
+                return res.status(500).json({ status: "Error", message: "Failed to update views" });
+            }
+            //console.log(result);
+            return res.status(200).json({ status: "Success",data:result });
+            
+        });
+    } catch (error) {
+        console.error('Error updating views:', error);
+        return res.status(500).json({ status: "Error", message: "Error updating views" });
+    }
+});
+
+app.put('/myvid_recentvideo/:u_id', (req, res) => {
+    try {
+        const { u_id } = req.params; // Retrieve views and v_id from the request body
+
+        const sql = "select v_name from videodetail where u_id=? order by v_id desc LIMIT 1;"
+
+        const values = [u_id];
+
+        db.query(sql, values, (err, result) => {
+            if (err) {
+                console.error('Error executing query:', err);
+                return res.status(500).json({ status: "Error", message: "Failed to update views" });
+            }
+            return res.status(200).json({ status: "Success",data:result });
+        });
+    } catch (error) {
+        console.error('Error updating views:', error);
+        return res.status(500).json({ status: "Error", message: "Error updating views" });
+    }
+});
+
+app.put('/userdata/:u_id', (req, res) => {
+    try {
+        const { u_id } = req.params; // Retrieve views and v_id from the request body
+
+        const sql = "select * from user where u_id=?;"
+
+        const values = [u_id];
+
+        db.query(sql, values, (err, result) => {
+            if (err) {
+                console.error('Error executing query:', err);
+                return res.status(500).json({ status: "Error", message: "Failed to update views" });
+            }
+            return res.status(200).json({ status: "Success",data:result });
+        });
+    } catch (error) {
+        console.error('Error updating views:', error);
+        return res.status(500).json({ status: "Error", message: "Error updating views" });
+    }
+});
+
+
 app.put('/searchbycetegory/:c_id', (req, res) => {
     try {
         const { c_id } = req.params; // Retrieve views and v_id from the request body
@@ -306,11 +371,6 @@ app.get('/search_vid', (req, res) => {
 
 
 
-// app.get('/posts', function(request, result){
-//     connection.query("SELECT * FROM 'some_table';", function(err, results, fields)){
-//          if(err) throw err;
-//         result.send(results);
-//     })
 
 // Configure multer for file storage
 const storage = multer.diskStorage({

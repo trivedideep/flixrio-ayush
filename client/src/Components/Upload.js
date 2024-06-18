@@ -147,6 +147,8 @@ const UploadFile = ({ uploadOpen, setUploadOpen }) => {
   const [disabled, setDisabled] = React.useState(true);
   const [path, setpath] = React.useState("");
   const [Category, setCategory] = useState([]);
+  const [lan, setlan] = useState([]);
+
   const [errors, setErrors] = useState({});
 
   const trim = () => {
@@ -255,6 +257,27 @@ const UploadFile = ({ uploadOpen, setUploadOpen }) => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    const fetchData1 = async () => {
+      try {
+        const response = await axios.get("http://localhost:8080/lan", {
+          withCredentials: true, // Ensure cookies are sent
+        });
+        if (response.status === 200) {
+          setlan(response.data);
+        } else {
+          setlan(null);
+        }
+      } catch (error) {
+        console.error("Error fetching session:", error);
+        setlan(null);
+      }
+    };
+
+    fetchData1();
+  }, []);
+
+
   return (
     <Modal
       open={uploadOpen}
@@ -301,12 +324,17 @@ const UploadFile = ({ uploadOpen, setUploadOpen }) => {
               style={{ marginTop: "6px", width: "100%", marginRight: "0px" }}
             >
               <Select
+                name="Language"
                 onChange={(e) =>
-                  setPodcast({ ...podcast, type: e.target.value })
+                  setPodcast({ ...podcast, lan: e.target.value })
                 }
               >
-                <Option value="Basic">Basic</Option>
-                <Option value="Primium">Primium</Option>
+                <Option value="0" selected disabled hidden>
+                  Select language
+                </Option>
+                {lan.map((lan) => (
+                  <Option value={lan.l_id}>{lan.l_name}</Option>
+                ))}
               </Select>
             </OutlinedBox>
             <OutlinedBox

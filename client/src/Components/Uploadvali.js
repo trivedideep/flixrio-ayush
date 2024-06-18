@@ -1,13 +1,13 @@
 function Uploadvali(values) {
   let error = {};
 
-  const user_pattern = /^[a-zA-Z0-9 ]{1,}$/;
+  const desc_pattern = /^[a-zA-Z0-9@.,-\s]{1,}$/;
   const video_pattern = /^.*\.(mp4)$/i;
 
   // Validate video name
   if (values.name === "") {
     error.name = "Video Name should not be empty";
-  } else if (!user_pattern.test(values.name)) {
+  } else if (!desc_pattern.test(values.name)) {
     error.name = "Invalid name";
   } else {
     error.name = "";
@@ -16,7 +16,7 @@ function Uploadvali(values) {
   // Validate description
   if (values.desc === "") {
     error.desc = "Description should not be empty";
-  } else if (!user_pattern.test(values.desc)) {
+  } else if (!desc_pattern.test(values.desc)) {
     error.desc = "Description invalid";
   } else {
     error.desc = "";
