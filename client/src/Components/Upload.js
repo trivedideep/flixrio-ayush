@@ -320,7 +320,7 @@ const UploadFile = ({ uploadOpen, setUploadOpen }) => {
           <Error error={errors.desc}>{errors.desc}</Error>
 
           <Flex>
-            <OutlinedBox
+            {/* <OutlinedBox
               style={{ marginTop: "6px", width: "100%", marginRight: "0px" }}
             >
               <Select
@@ -336,9 +336,9 @@ const UploadFile = ({ uploadOpen, setUploadOpen }) => {
                   <Option value={lan.l_id}>{lan.l_name}</Option>
                 ))}
               </Select>
-            </OutlinedBox>
+            </OutlinedBox> */}
             <OutlinedBox
-              style={{ marginTop: "6px", width: "100%", marginLeft: "0px" }}
+              style={{ marginTop: "6px", width: "100%", marginLeft: "15px" }}
             >
               <Select
                 name="categgory"
