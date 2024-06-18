@@ -3,7 +3,6 @@ import {
   EmailRounded,
   PasswordRounded,
   Person,
-  PhoneAndroid,
   Visibility,
   VisibilityOff,
 } from "@mui/icons-material";
@@ -15,7 +14,7 @@ import { openSignin } from "../redux/setSigninSlice";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import regvali from "./regvali";
-import useEmailValidation from "../hooks/useEmailValidation";
+import useEmailValidation from '../hooks/useEmailValidation';
 
 const TextInput = styled.input`
   width: 100%;
@@ -95,7 +94,7 @@ const Error = styled.div`
   color: red;
   font-size: 10px;
   margin: 2px 26px 8px 26px;
-  display: ${({ error }) => (error ? "block" : "none")};
+  display: ${({ error }) => (error ? 'block' : 'none')};
 `;
 
 const RegisterText = styled.div`
@@ -133,25 +132,23 @@ const Register = () => {
     if (name === "email") {
       await validateEmail(value);
     }
+    if(!isEmailValid) {
+      setErrors((prevErrors) => ({ ...prevErrors, email: "Email already exists" }));
+    }
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const validationErrors = regvali(values);
     setErrors(validationErrors);
-    if (
-      validationErrors.username !== "" ||
-      validationErrors.email !== "" ||
-      validationErrors.Mono !== "" ||
-      validationErrors.password !== ""
-    ) {
+    if (validationErrors.username !== "" || validationErrors.email !== "" || validationErrors.Mono !== "" || validationErrors.password !== "") {
       return;
     }
 
     if (isEmailValid) {
       setLoading(true);
       try {
-        const res = await axios.post("http://localhost:8080/reg", values);
+        const res = await axios.post('http://localhost:8080/reg', values);
         setLoading(false);
         if (res.data.message === "Success") {
           alert("User created successfully");
@@ -164,10 +161,7 @@ const Register = () => {
         console.log(err);
       }
     } else if (!isEmailValid) {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        email: "Email already exists",
-      }));
+      setErrors((prevErrors) => ({ ...prevErrors, email: "Email already exists" }));
     }
   };
 
@@ -183,10 +177,10 @@ const Register = () => {
           }}
           onClick={() => dispatch(closeSignup())}
         />
-        <Title style={{ textAlign: "center" }}>Register</Title>
+        <Title style={{textAlign:"center"}}>Register</Title>
         <OutlinedBox style={{ marginTop: "24px" }}>
           <EmailRounded
-            sx={{ fontSize: "30px" }}
+            sx={{ fontSize: "20px" }}
             style={{ paddingRight: "12px" }}
           />
           <TextInput
@@ -199,7 +193,10 @@ const Register = () => {
         </OutlinedBox>
         <Error error={errors.email}>{errors.email}</Error>
         <OutlinedBox>
-          <Person sx={{ fontSize: "30px" }} style={{ paddingRight: "12px" }} />
+          <Person
+            sx={{ fontSize: "20px" }}
+            style={{ paddingRight: "12px" }}
+          />
           <TextInput
             name="username"
             placeholder="Username"
@@ -211,7 +208,7 @@ const Register = () => {
         <Error error={errors.username}>{errors.username}</Error>
         <OutlinedBox>
           <PasswordRounded
-            sx={{ fontSize: "30px" }}
+            sx={{ fontSize: "20px" }}
             style={{ paddingRight: "12px" }}
           />
           <TextInput
@@ -236,8 +233,8 @@ const Register = () => {
         </OutlinedBox>
         <Error error={errors.password}>{errors.password}</Error>
         <OutlinedBox>
-          <PhoneAndroid
-            sx={{ fontSize: "30px" }}
+          <Person
+            sx={{ fontSize: "20px" }}
             style={{ paddingRight: "12px" }}
           />
           <TextInput
@@ -252,14 +249,13 @@ const Register = () => {
         <OutlinedBox
           button
           onClick={handleSubmit}
-          style={{
-            marginTop: "6px",
-            cursor: "pointer",
-            background: "#be1adb",
-            color: "white",
-          }}
+          style={{ marginTop: "6px", cursor: "pointer" }}
         >
-          {loading ? <CircularProgress color="inherit" size={20} /> : "Sign Up"}
+          {loading ? (
+            <CircularProgress color="inherit" size={20} />
+          ) : (
+            "Sign Up"
+          )}
         </OutlinedBox>
         <RegisterText>
           Already have an account?
