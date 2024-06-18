@@ -15,6 +15,8 @@ import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import PersonAdd from '@mui/icons-material/PersonAdd';
 import Divider from '@mui/material/Divider';
+import { setUser } from "../redux/favSlice";
+
 
 const NavBarDiv = styled.div`
   display: flex;
@@ -56,6 +58,7 @@ const ButtonDiv = styled.div`
 `;
 const IcoButton = styled(IconButton)`
   color: ${({ theme }) => theme.text_secondary} !important;
+  
 `;
 const Welcome = styled.div`
   font-size: 26px;
@@ -104,8 +107,8 @@ const NavBar = ({ menuOpen, setMenuOpen }) => {
         });
       if (response.ok) {
         fetchSession();
-        localStorage.removeItem('loginuser');
-        localStorage.removeItem('user');
+        localStorage.clear();
+        dispatch(setUser(null))
 
             navigate('/'); // Redirect to home or login page
         } else {

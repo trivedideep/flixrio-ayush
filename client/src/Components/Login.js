@@ -2,24 +2,24 @@ import {
   CloseRounded,
   EmailRounded,
   PasswordRounded,
-  SellRounded,
   Visibility,
   VisibilityOff,
 } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { closeSignin } from "../redux/setSigninSlice";
-import { useNavigate } from 'react-router-dom';
-import LoginValidation from './Loginvalidation';
-import axios from 'axios';
-import useSession from '../hooks/useSession';
+import { useNavigate } from "react-router-dom";
+import LoginValidation from "./Loginvalidation";
+import axios from "axios";
+import useSession from "../hooks/useSession";
 import { openSignup } from "../redux/setSignupSlice";
 import Resetpassvali from "./Resetpassvali";
-import useEmailValidation from '../hooks/useEmailValidation';
+import useEmailValidation from "../hooks/useEmailValidation";
 
+import { setUser } from "../redux/favSlice";
 
 const TextInput = styled.input`
   width: 100%;
@@ -96,7 +96,7 @@ const OutlinedBox = styled.div`
     `
     user-select: none; 
   border: none;
-    background: ${theme.text_secondary  };
+    background: ${theme.text_secondary};
     color: white;`}
   margin: 3px 20px;
   font-size: 14px;
@@ -111,13 +111,13 @@ const Error = styled.div`
   color: red;
   font-size: 10px;
   margin: 2px 26px 8px 26px;
-  display: ${({ error }) => (error ? 'block' : 'none')};
+  display: ${({ error }) => (error ? "block" : "none")};
 `;
 
 const LoginText = styled.div`
   font-size: 14px;
   font-weight: 500;
-  color: ${({ theme }) => theme.text_secondary};
+  color: white;
   margin: 20px 20px 30px 20px;
   display: flex;
   justify-content: center;
@@ -152,204 +152,139 @@ const Login = () => {
   const { isEmailValid, validateEmail } = useEmailValidation();
 
   const [resettingPassword, setResettingPassword] = useState(false);
-  
+
   const [resetDisabled, setResetDisabled] = useState(true);
 
-  
-  const [Loading] = useState(false);
-  
-  
-  const closeForgetPassword = () => {
-    setShowForgotPassword(false)
-    
-  }
-  const resthandleChange = async(e) => {
-    const { name, value } = e.target;
+  const { userFav } = useSelector((state) => state.fav);
 
+  const [Loading] = useState(false);
+
+  const closeForgetPassword = () => {
+    setShowForgotPassword(false);
+  };
+  const resthandleChange = async (e) => {
     setrestValues({ ...restvalues, [e.target.name]: e.target.value });
-    
+
     if (e.target.name === "restEmail") {
       await validateEmail(e.target.value);
     }
   };
 
-
   const handleChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
+  };
+
+  const fetchData_fav = async () => {
+    try {
+      const u_id = user ? user.id : 0;
+      const response = await axios.put(
+        `http://localhost:8080/fatchfavouritedata/${u_id}`,
+        {
+          withCredentials: true,
+        }
+      );
+      if (response.status === 200) {
+        const updatedUser = { ...userFav, favorites: response.data.data };
+        if (
+          JSON.stringify(userFav?.favorites) !==
+          JSON.stringify(updatedUser.favorites)
+        ) {
+          dispatch(setUser(updatedUser));
+          localStorage.setItem("user", JSON.stringify(updatedUser));
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching session:", error);
+    }
   };
 
   const resthandleSubmit = async (event) => {
     event.preventDefault();
     const validationErrors = Resetpassvali(restvalues);
-      setErrors(validationErrors);
-      if (validationErrors.restEmail !== "" || validationErrors.restpass1 !== "" || validationErrors.restpass2 !== "") {
-        return;
-      }
-  
-          if (!isEmailValid) {
-            setLoading(true);
-        
-          try {
-        
-              const response = await axios.post('http://localhost:8080/upuser', restvalues, {
-                  headers: {
-                      'Content-Type': 'application/json'
-                  },
-                  withCredentials: true // Ensure cookies are sent
-              });
-              const data = response.data;
-              //console.log(data);
-              if (data.status === 'Success') {
-                alert("paaword update sucessful");
-        
-                  // Fetch session data to update the frontend state
-                  fetchSession();
-                  dispatch(closeSignin());
-        
-              }
-              else {
-                  //console.log('Login failed');
-                  alert('password update failed');
-              }
-          } catch (error) {
-              console.error('Error logging in:', error);
-          }
-          }
-      else if (isEmailValid) {
-        setErrors((prevErrors) => ({ ...prevErrors, restEmail: "Email not exists" }));
-      }
-  };
-
-
-const handleSubmit = async (event) => {
-  event.preventDefault();
-  const validationErrors = LoginValidation(values);
     setErrors(validationErrors);
-    if (validationErrors.email !== "" || validationErrors.password !== "") {
-    return;
-  }
-    setLoading(true);
-   
-  try {
+    if (
+      validationErrors.restEmail !== "" ||
+      validationErrors.restpass1 !== "" ||
+      validationErrors.restpass2 !== ""
+    ) {
+      return;
+    }
 
-      const response = await axios.post('http://localhost:8080/login', values, {
-          headers: {
-              'Content-Type': 'application/json'
-          },
-          withCredentials: true // Ensure cookies are sent
-      });
-      const data = response.data;
-      if (data === 'Success') {
-       // alert("login sucessful");
+    if (!isEmailValid) {
+      setLoading(true);
+
+      try {
+        const response = await axios.post(
+          "http://localhost:8080/upuser",
+          restvalues,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+            withCredentials: true, // Ensure cookies are sent
+          }
+        );
+        const data = response.data;
+
+        if (data.status === "Success") {
+          alert("paaword update sucessful");
+
           // Fetch session data to update the frontend state
           fetchSession();
           dispatch(closeSignin());
-
-          navigate('/');
-      }
-       else {
+        } else {
           //console.log('Login failed');
-          alert('Email or password invalid');
+          alert("password update failed");
+        }
+      } catch (error) {
+        console.error("Error logging in:", error);
       }
-  } catch (error) {
-      console.error('Error logging in:', error);
-  }
+    } else if (isEmailValid) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        restEmail: "Email not exists",
+      }));
+    }
+  };
 
-setLoading(false);
-  
-};
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const validationErrors = LoginValidation(values);
+    setErrors(validationErrors);
+    if (validationErrors.email !== "" || validationErrors.password !== "") {
+      return;
+    }
+    setLoading(true);
 
+    try {
+      const response = await axios.post("http://localhost:8080/login", values, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true, // Ensure cookies are sent
+      });
+      const data = response.data;
+      if (data === "Success") {
+        // Fetch session data to update the frontend state
+        fetchSession();
+        fetchData_fav();
+        dispatch(closeSignin());
+
+        navigate("/");
+      } else {
+        alert("Email or password invalid");
+      }
+    } catch (error) {
+      console.error("Error logging in:", error);
+    }
+
+    setLoading(false);
+  };
 
   return (
-
     <Container>
       {!showForgotPassword ? (
-      <Wrapper>
-        <CloseRounded
-          style={{
-            position: "absolute",
-            top: "24px",
-            right: "30px",
-            cursor: "pointer",
-          }}
-          onClick={() => dispatch(closeSignin())}
-        />
-        <Title>Sign In</Title>
-        <OutlinedBox style={{ marginTop: "24px" }}>
-          <EmailRounded
-            sx={{ fontSize: "30px" }}
-            style={{ paddingRight: "12px" }}
-          />
-          <TextInput
-            name="email"
-            placeholder="Email Id"
-            type="email"
-            onChange={handleChange}
-            value={values.email}
-          />
-        </OutlinedBox>
-        <Error error={errors.email}>{errors.email}</Error>
-        <OutlinedBox>
-          <PasswordRounded
-            sx={{ fontSize: "30px" }}
-            style={{ paddingRight: "12px" }}
-          />
-          <TextInput
-            name="password"
-            placeholder="Password"
-            type={values.showPassword ? "text" : "password"}
-            onChange={handleChange}
-            value={values.password}
-          />
-          <IconButton
-            color="inherit"
-            onClick={() =>
-              setValues({ ...values, showPassword: !values.showPassword })
-            }
-          >
-            {values.showPassword ? (
-              <Visibility sx={{ fontSize: "20px" }} />
-            ) : (
-              <VisibilityOff sx={{ fontSize: "20px" }} />
-            )}
-          </IconButton>
-        </OutlinedBox>
-        <Error error={errors.password}>{errors.password}</Error>
-        <ForgetPassword onClick={() => setShowForgotPassword(true)}>
-          <b>Forgot password?</b>
-        </ForgetPassword>
-        <OutlinedBox
-          button
-          onClick={handleSubmit}
-          style={{ marginTop: "6px", cursor: "pointer" }}
-        >
-          {loading ? (
-            <CircularProgress  size={20} />
-          ) : (
-            "Sign In"
-          )}
-        </OutlinedBox>
-        <LoginText>
-          Don't have an account?
-          <Span
-                  onClick={() => {
-                    
-                    dispatch(
-                      closeSignin()
-                );
-                dispatch(openSignup())
-                  }}
-                  style={{
-                    fontWeight: "500",
-                    marginLeft: "6px",
-                    cursor: "pointer",
-                  }}
-                >
-            Create Account
-          </Span>
-        </LoginText>
-      </Wrapper>  ) : (
-          <Wrapper>
+        <Wrapper>
           <CloseRounded
             style={{
               position: "absolute",
@@ -357,18 +292,113 @@ setLoading(false);
               right: "30px",
               cursor: "pointer",
             }}
-            onClick={() => { closeForgetPassword(); dispatch(closeSignin()); }}
+            onClick={() => dispatch(closeSignin())}
+          />
+          <Title>Sign In</Title>
+          <OutlinedBox style={{ marginTop: "24px" }}>
+            <EmailRounded
+              sx={{ fontSize: "30px" }}
+              style={{ paddingRight: "12px" }}
+            />
+            <TextInput
+              name="email"
+              placeholder="Email Id"
+              type="email"
+              onChange={handleChange}
+              value={values.email}
+            />
+          </OutlinedBox>
+          <Error error={errors.email}>{errors.email}</Error>
+          <OutlinedBox>
+            <PasswordRounded
+              sx={{ fontSize: "30px" }}
+              style={{ paddingRight: "12px" }}
+            />
+            <TextInput
+              name="password"
+              placeholder="Password"
+              type={values.showPassword ? "text" : "password"}
+              onChange={handleChange}
+              value={values.password}
+            />
+            <IconButton
+              color="inherit"
+              onClick={() =>
+                setValues({ ...values, showPassword: !values.showPassword })
+              }
+            >
+              {values.showPassword ? (
+                <Visibility sx={{ fontSize: "20px" }} />
+              ) : (
+                <VisibilityOff sx={{ fontSize: "20px" }} />
+              )}
+            </IconButton>
+          </OutlinedBox>
+          <Error error={errors.password}>{errors.password}</Error>
+          <ForgetPassword onClick={() => setShowForgotPassword(true)}>
+            <b>Forgot password?</b>
+          </ForgetPassword>
+          <OutlinedBox
+            button
+            onClick={handleSubmit}
+            style={{ marginTop: "6px", cursor: "pointer", color: "white" }}
+          >
+            {loading ? <CircularProgress size={20} /> : "Sign In"}
+          </OutlinedBox>
+          <LoginText>
+            Don't have an account?
+            <Span
+              onClick={() => {
+                dispatch(closeSignin());
+                dispatch(openSignup());
+              }}
+              style={{
+                fontWeight: "500",
+                marginLeft: "6px",
+                cursor: "pointer",
+              }}
+            >
+              Create Account
+            </Span>
+          </LoginText>
+        </Wrapper>
+      ) : (
+        <Wrapper>
+          <CloseRounded
+            style={{
+              position: "absolute",
+              top: "24px",
+              right: "30px",
+              cursor: "pointer",
+            }}
+            onClick={() => {
+              closeForgetPassword();
+              dispatch(closeSignin());
+            }}
           />
           <>
             <Title>Reset Password</Title>
-            {resettingPassword ?
-              <div style={{ padding: '12px 26px', marginBottom: '20px', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '14px', justifyContent: 'center' }}>Updating password<CircularProgress color="inherit" size={20} /></div>
-              :
+            {resettingPassword ? (
+              <div
+                style={{
+                  padding: "12px 26px",
+                  marginBottom: "20px",
+                  textAlign: "center",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  gap: "14px",
+                  justifyContent: "center",
+                }}
+              >
+                Updating password
+                <CircularProgress color="inherit" size={20} />
+              </div>
+            ) : (
               <>
-  
                 <OutlinedBox style={{ marginTop: "24px" }}>
                   <EmailRounded
-                    sx={{ fontSize: "20px" }}
+                    sx={{ fontSize: "30px" }}
                     style={{ paddingRight: "12px" }}
                   />
                   <TextInput
@@ -382,7 +412,7 @@ setLoading(false);
                 <Error error={errors.restEmail}>{errors.restEmail}</Error>
                 <OutlinedBox>
                   <PasswordRounded
-                    sx={{ fontSize: "20px" }}
+                    sx={{ fontSize: "30px" }}
                     style={{ paddingRight: "12px" }}
                   />
                   <TextInput
@@ -395,21 +425,24 @@ setLoading(false);
                   <IconButton
                     color="inherit"
                     onClick={() =>
-                      setrestValues({ ...restvalues, restshowPassword1: !restvalues.restshowPassword1 })
+                      setrestValues({
+                        ...restvalues,
+                        restshowPassword1: !restvalues.restshowPassword1,
+                      })
                     }
                   >
                     {restvalues.restshowPassword1 ? (
-                      <Visibility sx={{ fontSize: "20px" }} />
+                      <Visibility sx={{ fontSize: "30px" }} />
                     ) : (
                       <VisibilityOff sx={{ fontSize: "20px" }} />
                     )}
                   </IconButton>
                 </OutlinedBox>
                 <Error error={errors.restpass1}>{errors.restpass1}</Error>
-  
+
                 <OutlinedBox>
                   <PasswordRounded
-                    sx={{ fontSize: "20px" }}
+                    sx={{ fontSize: "30px" }}
                     style={{ paddingRight: "12px" }}
                   />
                   <TextInput
@@ -422,7 +455,10 @@ setLoading(false);
                   <IconButton
                     color="inherit"
                     onClick={() =>
-                      setrestValues({ ...restvalues, restshowPassword2: !restvalues.restshowPassword2 })
+                      setrestValues({
+                        ...restvalues,
+                        restshowPassword2: !restvalues.restshowPassword2,
+                      })
                     }
                   >
                     {restvalues.restshowPassword2 ? (
@@ -436,10 +472,12 @@ setLoading(false);
                 <OutlinedBox
                   button={true}
                   onClick={resthandleSubmit}
-  
                   activeButton={!resetDisabled}
-                  style={{ marginTop: "6px", marginBottom: "24px" }}
-  
+                  style={{
+                    marginTop: "6px",
+                    marginBottom: "24px",
+                    color: "white",
+                  }}
                 >
                   {Loading ? (
                     <CircularProgress color="inherit" size={20} />
@@ -450,26 +488,24 @@ setLoading(false);
                 <LoginText>
                   Don't have an account ?
                   <Span
-                      onClick={() => {
-                        
-                            dispatch(openSignup());
-                            dispatch(
-                              closeSignin()
-                            )
-                          }}
-                          style={{
-                            fontWeight: "500",
-                            marginLeft: "6px",
-                            cursor: "pointer",
-                      }}
-                        >
-                          Create Account
-                        </Span>
+                    onClick={() => {
+                      dispatch(openSignup());
+                      dispatch(closeSignin());
+                    }}
+                    style={{
+                      fontWeight: "500",
+                      marginLeft: "6px",
+                      cursor: "pointer",
+                    }}
+                  >
+                    Create Account
+                  </Span>
                 </LoginText>
               </>
-            }
+            )}
           </>
-        </Wrapper>  )}
+        </Wrapper>
+      )}
     </Container>
   );
 };

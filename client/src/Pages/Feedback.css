@@ -25,14 +25,14 @@
     gap: 5px;
   }
   .text-primary {
-    /* color: rgb(255, 255, 255)!important; */
+    
     color: #be1adb !important;
     font-size: 20px;
     font-weight: 600;
     letter-spacing: 0.5px;
   }
   .text-secondary {
-    /* color: #cccccc; */
+    
     font-size: 15px;
     font-weight: 400;
     letter-spacing: 0.5px;
@@ -83,7 +83,7 @@
   }
   .social-button svg {
     width: 30px;
-    fill: rgb(228, 228, 228);
+    fill:#be1adb;
   }
   .social-button:hover svg {
     fill: rgb(255, 102, 47);
@@ -94,7 +94,7 @@
   }
 
   .ant-rate .ant-rate-star-second {
-    color: white ;
+    color: #be1adb;
     width: 50%;
   }
 
