@@ -113,8 +113,7 @@ const Feedback = ({ Feedbackopen, setFeedbackopen }) => {
   const [disabled] = React.useState(true);
 
   const handleSubmit = (event) => {
-    axios
-      .post("http://localhost:8080/feedback_insert", feed)
+    axios.post("http://localhost:8080/feedback_insert", feed)
       .then((res) => {
         if (res.status === 200) {
           message.success("Thank you for youe valuable Feedback");
@@ -126,7 +125,7 @@ const Feedback = ({ Feedbackopen, setFeedbackopen }) => {
       });
   };
 
-  const [setCurrentRate] = useState(feed.rate || 0); // Set initial rate based on podcast.rate or default to 0
+  const [CurrentRate,setCurrentRate] = useState(feed.rate || 0); // Set initial rate based on podcast.rate or default to 0
 
   const handleChange = (value) => {
     setCurrentRate(value);

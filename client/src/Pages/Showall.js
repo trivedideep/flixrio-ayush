@@ -54,7 +54,7 @@ const Podcasts = styled.div`
 `;
 const Showall = () => {
   const [videos, setVideos] = useState(null);
-  const [setVideos1] = useState(null);
+  const [videos1, setVideos1] = useState(null);
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
 
   useEffect(() => {

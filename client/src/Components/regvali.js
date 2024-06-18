@@ -2,7 +2,7 @@ function regvali(values) {
   let error = {};
 
   const email_pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const user_pattern = /^[a-zA-Z0-9]{6,}$/;
+  const user_pattern = /^[a-zA-Z0-9]{3,}$/;
   const mono_pattern = /^[0-9]{10}$/;
 
   const password_pattern = /^[a-zA-Z0-9$_@&]{8,}$/;

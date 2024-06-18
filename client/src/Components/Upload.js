@@ -326,8 +326,9 @@ const UploadFile = ({ uploadOpen, setUploadOpen }) => {
                 ))}
               </Select>
             </OutlinedBox>
-            <Error error={errors.category}>{errors.category}</Error>
+            
           </Flex>
+          <Error error={errors.category}>{errors.category}</Error>
           <Flex>
             <Upload {...props}>
               <Button

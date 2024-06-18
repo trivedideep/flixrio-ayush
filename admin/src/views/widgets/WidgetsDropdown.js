@@ -170,7 +170,7 @@ const WidgetsDropdown = (props) => {
               {totalvs}{' '}
             </>
           }
-          title="Vdeios"
+          title="Videos"
           chart={
             <CChartLine
               ref={widgetChartRef2}

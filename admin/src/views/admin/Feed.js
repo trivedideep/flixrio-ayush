@@ -74,13 +74,22 @@ const Feed = () => {
   };
 
   const columns = [
+    
     {
       title: 'feedback_id',
       dataIndex: 'f_id',
     },
     {
+      title: 'User_id',
+      dataIndex: 'u_id',
+    },
+    {
       title: 'Feed back ',
       dataIndex: 'feed',
+    },
+    {
+      title: 'Rate',
+      dataIndex: 'rate',
     },
     {
       title: 'Actions',
