@@ -583,7 +583,7 @@ app.put('/fatchfavouritedata/:u_id', (req, res) => {
     try {
         const { u_id } = req.params; // Retrieve views and v_id from the request body
 
-        const sql = "SELECT DISTINCT fv.v_id,fv.u_id,vd.*,u.u_name from favourite fv LEFT JOIN videodetail vd ON fv.v_id = vd.v_id LEFT JOIN user u ON fv.u_id = u.u_id where fv.u_id=?;";
+        const sql = "SELECT DISTINCT fv.v_id,fv.u_id,vd.*,u.u_name from favourite fv LEFT JOIN videodetail vd ON fv.v_id = vd.v_id LEFT JOIN user u ON vd.u_id = u.u_id where fv.u_id=?;";
         const values = [u_id];
 
         db.query(sql, values, (err, result) => {

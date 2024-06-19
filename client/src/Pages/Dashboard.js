@@ -129,6 +129,8 @@ const Dashboard = () => {
       fetchData_fav();
     }
     console.log(userFav, "user");
+    console.log("Login User:");
+    console.log(user_data);
   }, [user_data]);
 
   return (
